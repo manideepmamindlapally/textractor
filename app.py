@@ -1,11 +1,29 @@
+import os
+import sys
+from flask import Flask, render_template, request, url_for, redirect
 from PIL import Image
 from backend.get_text import textrecog
 
-image_url = "http://www.golbazaar.com/wp-content/uploads/2018/07/Mens-Opulent-Printed-T-Shirts-Vol-2-white-Printed-words-single.jpg"
+frontend = "./frontend/"
+template_folder = frontend + "templates/"
+app = Flask(__name__, template_folder = template_folder)
 
-mode = "Handwritten"
+@app.route('/')
+def main():
+	return redirect(url_for("index"))
 
-image, text = textrecog(image_url, mode)
+@app.route('/index')
+def index():
+	return render_template("index.html")
 
-print(text)
-image.save("./../a.png")
+@app.route('/', methods=["POST"])
+def submit():
+	image_url = request.form['imgurl']
+	mode = request.form['mode']
+	print(mode)
+	fimage, text = textrecog(image_url, mode)
+	print(text)
+	return redirect(url_for("index"))
+
+if __name__ == "__main__":
+	app.run()
