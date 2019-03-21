@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Textractor</title>
-</head>
-<body>
-	<h1>Textractor</h1>
+{% include 'header.html' %}
 	<form action="/" method="POST">
 		<input type="text" name="imgurl" placeholder="Put your Image URL here"><br>
 		<input type="radio" name="mode" value="Handwritten">
@@ -15,5 +9,11 @@
 		<br>
 		<input type="submit" value="Submit">
 	</form>
-</body>
-</html>
+	{% if ftext != None %}
+		<p>{{ftext}}</p>
+	{% endif %}
+	<br>
+	{% if fimage_url != None %}
+		<img src="{{ fimage_url }}" alt="The Processed Image">
+	{% endif %}
+{% include 'footer.html' %}
