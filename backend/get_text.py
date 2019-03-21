@@ -7,7 +7,7 @@ from matplotlib.patches import Polygon
 from PIL import Image
 from io import BytesIO
 # import figure to image conversion
-from dataconv import fig2img
+from backend.dataconv import fig2img
 
 # Replace <Subscription Key> with your valid subscription key.
 subscription_key = "72b3f37662064fb1afe2f008e12e5200"
