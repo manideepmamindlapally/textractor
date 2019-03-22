@@ -1,14 +1,15 @@
 import os
 import shutil
 import sys
-from flask import Flask, render_template, request, url_for, redirect
+from flask import Flask, render_template, request, url_for, redirect, send_from_directory
 from PIL import Image
 from backend.get_text import textrecog
 
 frontend = "./frontend/"
-temp = "./temp/"
+TEMP = "./temp/"
 template_folder = frontend + "templates/"
 app = Flask(__name__, template_folder = template_folder)
+app.config['TEMP'] = TEMP
 
 @app.route('/')
 def main():
@@ -18,22 +19,28 @@ def main():
 def index():
 	return render_template("index.html")
 
+# renders the final text display
 @app.route('/display')
 def display():
-	fimage_url = request.args['fimage_url']
+	fimage_name = request.args['fimage_name']
 	ftext = request.args['ftext']
-	# shutil.rmtree('/home/me/test')
-	return render_template("index.html", fimage_url= fimage_url, ftext=ftext)
+	return render_template("index.html", fimage_name= fimage_name, ftext=ftext)
+
+# returns the image location src
+@app.route('/display_im/<filename>')
+def display_im(filename):
+	return send_from_directory(TEMP, filename)
 
 @app.route('/', methods=["POST"])
 def submit():
 	image_url = request.form['imgurl']
 	mode = request.form['mode']
 	fimage, ftext = textrecog(image_url, mode)
-	fimage.save(temp+"fimage.png")
-	fimage_url = temp+"fimage.png"
-	print(fimage_url)
-	return redirect(url_for("display", fimage_url= fimage_url, ftext=ftext))
+	fimage.save(TEMP+"fimage.png")
+	fimage_name = "fimage.png"
+	fimage_name = "fimage.png"
+	print(fimage_name)
+	return redirect(url_for("display", fimage_name= fimage_name, ftext=ftext))
 
 if __name__ == "__main__":
 	app.run()

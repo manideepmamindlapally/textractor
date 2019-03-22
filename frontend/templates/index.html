@@ -13,7 +13,7 @@
 		<p>{{ftext}}</p>
 	{% endif %}
 	<br>
-	{% if fimage_url != None %}
-		<img src="{{ fimage_url }}" alt="The Processed Image">
+	{% if fimage_name != None %}
+		<img src="{{ url_for('display_im', filename=fimage_name) }}" alt="The Processed Image">
 	{% endif %}
 {% include 'footer.html' %}
