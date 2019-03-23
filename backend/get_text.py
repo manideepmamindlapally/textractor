@@ -6,8 +6,6 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
 from PIL import Image
 from io import BytesIO
-# import figure to image conversion
-from backend.dataconv import fig2img
 
 # Replace <Subscription Key> with your valid subscription key.
 subscription_key = "72b3f37662064fb1afe2f008e12e5200"
@@ -75,18 +73,4 @@ def textrecog(image_url, mode):
 	    text = polygon[1]
 	    text_string += text + '\n'
 
-	# Display the image and overlay it with the extracted text.
-	figure = plt.figure(figsize=(15, 15))
-	image = Image.open(BytesIO(requests.get(image_url).content))
-	ax = plt.imshow(image)
-	for polygon in polygons:
-	    vertices = [(polygon[0][i], polygon[0][i+1])
-	        for i in range(0, len(polygon[0]), 2)]
-	    text     = polygon[1]
-	    patch    = Polygon(vertices, closed=True, fill=False, linewidth=2, color='y')
-	    ax.axes.add_patch(patch)
-	    plt.text(vertices[0][0], vertices[0][1], text, fontsize=20, va="top")
-	_ = plt.axis("off")
-	overlay_image = fig2img(figure)
-
-	return overlay_image, text_string 
+	return text_string 

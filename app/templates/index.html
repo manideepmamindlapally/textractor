@@ -9,11 +9,11 @@
 		<br>
 		<input type="submit" value="Submit">
 	</form>
-	{% if ftext != "" %}
+	{% if ftext != None %}
 		<p>{{ftext}}</p>
 	{% endif %}
 	<br>
-	{% if fimage_name != "" %}
-		<img src="{{ url_for('display_im', filename=fimage_name) }}" alt="The Processed Image">
+	{% if fimage_name != None %}
+		<img src="{{image_url}}" alt="The Processed Image">
 	{% endif %}
 {% include 'footer.html' %}
